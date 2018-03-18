@@ -11,9 +11,10 @@ import yinwuteng.com.mywanandroid.bean.User;
 
 /**
  * Created by lw on 2018/1/23.
+ * API接口
  */
 
-public interface ApiService {
+ interface ApiService {
 
     /**
      * 登录

@@ -33,19 +33,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     //http
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-    //httpcache
-    implementation 'com.github.VictorAlbertos.RxCache:runtime:1.8.0-2.x'
-    implementation 'com.github.VictorAlbertos.Jolyglot:gson:0.0.3'
 
-    //rxjava
-    implementation "io.reactivex.rxjava2:rxjava:2.1.0"
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    //rxandroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
     //添加recycleview适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     //黄牛刀

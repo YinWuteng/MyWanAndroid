@@ -27,21 +27,11 @@ import yinwuteng.com.mywanandroid.constant.Constant;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Toolbar mToolbar;
-    /**
-     * 黄牛刀
-     */
+
     private Unbinder unbinder;
 
-    /**
-     * 获取布局
-     *
-     * @return
-     */
     protected abstract int getLayoutId();
 
-    /**
-     * 初始化控件
-     */
     protected abstract void initView();
 
     /**

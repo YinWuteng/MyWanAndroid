@@ -3,8 +3,8 @@ package yinwuteng.com.mywanandroid.bean;
 import java.util.List;
 
 /**
- * Created by yinwuteng on 2018/3/11.
- * 用户登录实体类
+ * Created by lw on 2018/1/24.
+ * 用户信息实体类
  */
 
 public class User {
@@ -62,5 +62,4 @@ public class User {
     public void setCollectIds(List<Integer> collectIds) {
         this.collectIds = collectIds;
     }
-
 }

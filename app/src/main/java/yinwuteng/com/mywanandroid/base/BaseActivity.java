@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.blankj.utilcode.util.NetworkUtils;
@@ -51,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         initToolbar();
         initView();
+        if (!NetworkUtils.isConnected()) showNoNet();
     }
 
     @Override
@@ -59,6 +61,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         unbinder.unbind();
     }
 
+    public void showNoNet(){
+
+        ToastUtils.showShort("无网络连接");
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

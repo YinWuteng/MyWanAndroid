@@ -14,7 +14,7 @@ import yinwuteng.com.mywanandroid.bean.User;
  * API接口
  */
 
- interface ApiService {
+public interface ApiService {
 
     /**
      * 登录

@@ -9,6 +9,7 @@ import yinwuteng.com.mywanandroid.utils.RxSchedulers;
 
 /**
  * Created by yinwuteng on 2018/3/18.
+ * 嗯狗控制器
  */
 
 public class LoginPresent {

@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.constant.Constant;
 
 /**
@@ -23,7 +25,8 @@ import yinwuteng.com.mywanandroid.constant.Constant;
  * fragment基类
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends Fragment implements BaseContract.BaseView {
+    protected T mPresenter;
     private Unbinder unbinder;
     private View mRootView, mErrorView, mEmptyView;
 
@@ -34,12 +37,10 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        attachView();
         if (!NetworkUtils.isConnected()) showNoNet();
     }
 
-    private void showNoNet() {
-        ToastUtils.showShort("无网络连接");
-    }
 
     @Nullable
     @Override
@@ -53,10 +54,10 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 设置加载数据结果
      *
-     * @param baseQuickAdapter
-     * @param refreshLayout
-     * @param list
-     * @param loadType
+     * @param baseQuickAdapter 适配器
+     * @param refreshLayout 刷新控件
+     * @param list 数据
+     * @param loadType 加载类型
      */
     protected void setLoadDataResult(BaseQuickAdapter baseQuickAdapter, SwipeRefreshLayout refreshLayout, List list, int loadType) {
         switch (loadType) {
@@ -85,6 +86,42 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        detacheView();
+    }
+
+    @Override
+    public void showLoading() {
+        ToastUtils.showShort("showLoading");
+    }
+
+    @Override
+    public void hideLoading() {
+        ToastUtils.showShort("hideLoading");
+    }
+
+    @Override
+    public void showSuccess(String successMsg) {
+        ToastUtils.showShort(successMsg);
+    }
+
+    @Override
+    public void showFailed(String errorMsg) {
+        ToastUtils.showShort(errorMsg);
+    }
+
+    @Override
+    public void showNoNet() {
+        ToastUtils.showShort(R.string.no_network_connection);
+    }
+
+    @Override
+    public void onRetry() {
+        ToastUtils.showShort("onRetry");
+    }
+
+    @Override
+    public <T> LifecycleTransformer<T> bindToLife() {
+        return this.bindToLife();
     }
 
     /**
@@ -98,5 +135,21 @@ public abstract class BaseFragment extends Fragment {
         if (mRootView == null) {
             mRootView = inflater.inflate(getLayoutId(), container, false);
         }
+    }
+
+    /**
+     * 贴上view
+     */
+    private void attachView() {
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
+    }
+
+    /**
+     * 分离view
+     */
+    private void detacheView() {
+        mPresenter.detachView();
     }
 }

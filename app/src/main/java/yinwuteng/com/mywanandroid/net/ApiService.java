@@ -1,12 +1,18 @@
 package yinwuteng.com.mywanandroid.net;
 
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import yinwuteng.com.mywanandroid.bean.Article;
 import yinwuteng.com.mywanandroid.bean.DataResponse;
+import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
 import yinwuteng.com.mywanandroid.bean.User;
 
 /**
@@ -38,6 +44,24 @@ public interface ApiService {
     @POST("/user/register")
     @FormUrlEncoded
     Observable<DataResponse<User>> register(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
+
+    /**
+     * 知识体系
+     * http://www.wanandroid.com/tree/json
+     *
+     * @return BannerResponse
+     */
+    @GET("/tree/json")
+    Observable<DataResponse<List<KnowledgeSystem>>> getKnowledgeSystems();
+    /**
+     * 知识体系下的文章
+     * http://www.wanandroid.com/article/list/0/json?cid=168
+     *
+     * @param page page
+     * @param cid  cid
+     */
+    @GET("/article/list/{page}/json")
+    Observable<DataResponse<Article>> getKnowledgeSystemArticles(@Path("page") int page, @Query("cid") int cid);
 
     /**
      * 收藏文章
@@ -72,4 +96,4 @@ public interface ApiService {
     Observable<DataResponse> removeCollectArticle(@Path("id") int id, @Field("originId") int originId);
 
 
-  }
+}

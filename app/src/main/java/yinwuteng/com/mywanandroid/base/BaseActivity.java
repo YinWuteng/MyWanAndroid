@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.List;
 
@@ -25,8 +26,9 @@ import yinwuteng.com.mywanandroid.constant.Constant;
  * Activity基类
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends AppCompatActivity implements BaseContract.BaseView {
 
+    protected T mPresenter;
     protected Toolbar mToolbar;
 
     private Unbinder unbinder;
@@ -52,6 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         unbinder = ButterKnife.bind(this);
         initToolbar();
         initView();
+        attachView();
         if (!NetworkUtils.isConnected()) showNoNet();
     }
 
@@ -59,12 +62,39 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        detachView();
     }
 
-    public void showNoNet(){
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showFailed(String message) {
+
+    }
+
+    public void showNoNet() {
 
         ToastUtils.showShort("无网络连接");
     }
+
+    @Override
+    public void onRetry() {
+
+    }
+
+    @Override
+    public <T> LifecycleTransformer<T> bindToLife() {
+        return null;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -141,5 +171,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 贴上view
+     */
+    private void attachView() {
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
+    }
+
+    /**
+     * 分离view
+     */
+    private void detachView() {
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+    }
 
 }

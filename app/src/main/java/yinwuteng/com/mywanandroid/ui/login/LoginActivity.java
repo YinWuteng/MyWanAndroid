@@ -1,10 +1,9 @@
 package yinwuteng.com.mywanandroid.ui.login;
 
-
 import android.support.design.widget.TextInputEditText;
 
-
-
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -16,19 +15,18 @@ import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.bean.User;
 import yinwuteng.com.mywanandroid.constant.Constant;
 
-
 /**
- * Created by yinwuteng on 2018/3/18.
+ * Created by yinwuteng on 2018/4/5.
  * 登录activity
  */
-
-public class LoginActivity extends BaseActivity<LoginPresent> implements LoginContract.View {
-
+@Route(path = "/login/LoginActivity")
+public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> implements LoginView {
 
     @BindView(R.id.etUsername)
     TextInputEditText etUsername;
     @BindView(R.id.etPassword)
     TextInputEditText etPassword;
+
 
     @Override
     protected int getLayoutId() {
@@ -39,11 +37,12 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
     protected void initView() {
         etUsername.setText(SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.USERNAME_KEY));
         etPassword.setText(SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.PASSWORD_KEY));
+
     }
 
     @Override
-    protected boolean showHomeAsUp() {
-        return true;
+    protected LoginPresenter createPresenter() {
+        return new LoginPresenter();
     }
 
     @OnClick(R.id.btnLogin)
@@ -54,9 +53,23 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
             ToastUtils.showShort(R.string.the_username_or_password_can_not_be_empty);
             return;
         }
-        mPresenter.login(username, password);
+        getPresenter().login(username, password);
     }
 
+    @Override
+    public void onSuccess(String message) {
+        ToastUtils.showShort("登录成功");
+    }
+
+    @Override
+    public void showFailed(String message) {
+        ToastUtils.showShort("登录失败");
+    }
+
+    @Override
+    protected boolean showHomeAsUp() {
+        return true;
+    }
 
     @Override
     public void loginSuccess(User user) {
@@ -64,10 +77,9 @@ public class LoginActivity extends BaseActivity<LoginPresent> implements LoginCo
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.LOGIN_KEY, true);
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.USERNAME_KEY, user.getUsername());
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.PASSWORD_KEY, user.getPassword());
+        this.finish();
     }
-
-    @Override
-    public void showSuccess(String message) {
-
+    public static void start(){
+        ARouter.getInstance().build("/login/Activity").navigation();
     }
 }

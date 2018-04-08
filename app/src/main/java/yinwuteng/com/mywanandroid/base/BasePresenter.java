@@ -1,22 +1,33 @@
 package yinwuteng.com.mywanandroid.base;
 
 /**
- * Created by yinwuteng on 2018/3/21.
- * 基类控制器
+ * Created by yinwuteng on 2018/4/5.
+ * 基类presenter
  */
 
-public class BasePresenter<T extends BaseContract.BaseView> implements BaseContract.BasePresenter<T> {
-    protected T mView;
+public abstract class BasePresenter<T extends BaseView> {
+  private T  mView;
 
-    @Override
-    public void attachView(T view) {
-        this.mView = view;
-    }
+    /**
+     * 绑定view层
+     * @param view
+     */
+  public void attachView(T view){
+      this.mView=view;
+  }
 
-    @Override
-    public void detachView() {
-        if (mView != null) {
-            mView = null;
-        }
-    }
+    /**
+     * 解除绑定V层
+     */
+  public void detachView(){
+      mView=null;
+  }
+
+    /**
+     * 获取V层
+     * @return
+     */
+  public T getView(){
+      return mView;
+  }
 }

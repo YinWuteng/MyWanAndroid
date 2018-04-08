@@ -1,6 +1,8 @@
 package yinwuteng.com.mywanandroid.net;
 
 
+
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -11,6 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import yinwuteng.com.mywanandroid.bean.Article;
+import yinwuteng.com.mywanandroid.bean.Banner;
 import yinwuteng.com.mywanandroid.bean.DataResponse;
 import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
 import yinwuteng.com.mywanandroid.bean.User;
@@ -21,6 +24,14 @@ import yinwuteng.com.mywanandroid.bean.User;
  */
 
 public interface ApiService {
+    /**
+     * 获取首页数据
+     * @param page 页码
+     * @return
+     */
+    @GET("/article/list/{page}/json")
+    Observable<DataResponse<Article>> getHomeArticles(@Path("page") int page);
+
 
     /**
      * 登录
@@ -95,5 +106,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<DataResponse> removeCollectArticle(@Path("id") int id, @Field("originId") int originId);
 
-
+    /**
+     * 获取头部
+     *
+     * @return
+     */
+    @GET("/banner/json")
+    Observable<DataResponse<List<Banner>>> getHomeBanners();
 }

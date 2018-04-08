@@ -1,73 +1,83 @@
 package yinwuteng.com.mywanandroid.ui;
 
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.util.ToastUtils;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import yinwuteng.com.mywanandroid.R;
-import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.ui.home.HomeFragment;
-import yinwuteng.com.mywanandroid.ui.home.KnowledgeFragment;
-import yinwuteng.com.mywanandroid.ui.home.MyFragment;
+import yinwuteng.com.mywanandroid.ui.knowledge.KnowledgeFragment;
+import yinwuteng.com.mywanandroid.ui.my.MyFragment;
+
 
 /**
- * Created by yinwuteng on 2018/3/19.
- * 主页
+ * Created by yinwuteng on 2018/4/5.
+ * 主界面
  */
-
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.navigation)
-    BottomNavigationView navigation;
+@Route(path = "/ui/MainActivity")
+public class MainActivity extends RxAppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private ViewPager viewPage;
+    private BottomNavigationView navigation;
+    private Toolbar mToolbar;
     private List<BaseFragment> mFragments = new ArrayList<>();
 
     private long mExitTime; //退出时间
-    @BindView(R.id.viewPage)
-    ViewPager viewPager;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initView();
     }
 
-    @Override
-    protected void initView() {
+
+    private void initView() {
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         //设置navigation监听
         navigation.setOnNavigationItemSelectedListener(this);
+        viewPage = findViewById(R.id.viewPage);
+        mToolbar = findViewById(R.id.toolbar);
         initFragment();
         switchFragment(0);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 mToolbar.setTitle(R.string.app_name);
-                viewPager.setCurrentItem(0);
+                viewPage.setCurrentItem(0);
                 break;
             case R.id.navigation_knowledgesystem:
                 mToolbar.setTitle(R.string.title_knowledgesystem);
-                viewPager.setCurrentItem(1);
+                viewPage.setCurrentItem(1);
                 break;
             case R.id.navigation_my:
                 mToolbar.setTitle(R.string.title_my);
-                viewPager.setCurrentItem(2);
+                viewPage.setCurrentItem(2);
                 break;
         }
-
         return true;
     }
 
@@ -87,6 +97,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -95,7 +106,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             } else {
                 System.exit(0);
             }
-            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -105,17 +115,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
      */
     private void initFragment() {
         mFragments.add(new HomeFragment());
-        mFragments.add(new KnowledgeFragment());
-        mFragments.add(new MyFragment());
+//        mFragments.add(new KnowledgeFragment());
+//        mFragments.add(new MyFragment());
     }
 
     /**
      * 切换fragment
      *
-     * @param position 要显示的fragment的下标
+     * @param position 要显示的fragment下标
      */
     private void switchFragment(int position) {
-        //设置适配器，用于封装fragment
+        //设置fragment适配器，用于封装fragment
         FragmentPagerAdapter mPageAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -128,11 +138,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
             }
         };
         //设置适配器
-        viewPager.setAdapter(mPageAdapter);
-        //设置加载剩余2页
-        viewPager.setOffscreenPageLimit(2);
-        //viewPage监听器
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPage.setAdapter(mPageAdapter);
+        //加载剩余2页
+        viewPage.setOffscreenPageLimit(2);
+        //设置viewPage监听器
+        viewPage.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

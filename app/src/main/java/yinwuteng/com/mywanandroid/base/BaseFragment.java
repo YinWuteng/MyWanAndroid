@@ -11,24 +11,23 @@ import android.view.ViewGroup;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
 import yinwuteng.com.mywanandroid.R;
+import yinwuteng.com.mywanandroid.bean.Article;
 import yinwuteng.com.mywanandroid.constant.Constant;
 
 /**
- * Created by yinwuteng on 2018/3/19.
- * fragment基类
+ * Created by yinwuteng on 2018/4/5.
+ * 基类fragment
  */
 
-public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends Fragment implements BaseContract.BaseView {
-    protected T mPresenter;
-    private Unbinder unbinder;
-    private View mRootView, mErrorView, mEmptyView;
+public abstract class BaseFragment<V extends BaseView, P extends BasePresenter> extends Fragment implements BaseView {
+    protected P mPresenter;
+    private View mRootView;
 
     protected abstract int getLayoutId();
 
@@ -37,29 +36,38 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        attachView();
+        initPresenter();
         if (!NetworkUtils.isConnected()) showNoNet();
     }
 
-
+    /**
+     * 初始化presneter
+     */
+    private void initPresenter() {
+        if (mPresenter == null) {
+            mPresenter = createPresenter();
+        }
+        if (mPresenter == null) {
+            throw new NullPointerException("presenter不能为空");
+        }
+        mPresenter.attachView((V)this);
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflaterView(inflater, container);
-        unbinder = ButterKnife.bind(this, mRootView);
         initView(mRootView);
         return mRootView;
     }
-
     /**
      * 设置加载数据结果
      *
      * @param baseQuickAdapter 适配器
-     * @param refreshLayout 刷新控件
-     * @param list 数据
-     * @param loadType 加载类型
+     * @param refreshLayout    刷新控件
+     * @param list             数据
+     * @param loadType         加载类型
      */
-    protected void setLoadDataResult(BaseQuickAdapter baseQuickAdapter, SwipeRefreshLayout refreshLayout, List list, int loadType) {
+    protected void setLoadDataResult(BaseQuickAdapter<Article.DatasBean, BaseViewHolder> baseQuickAdapter, SwipeRefreshLayout refreshLayout, List<Article.DatasBean> list, int loadType) {
         switch (loadType) {
             case Constant.LOADTYPE_REFRESH_SUCCESS:
                 baseQuickAdapter.setNewData(list);
@@ -81,47 +89,27 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
             baseQuickAdapter.loadMoreComplete();
         }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
-        detacheView();
+        //解除绑定
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
     }
 
     @Override
     public void showLoading() {
-        ToastUtils.showShort("showLoading");
+
     }
 
     @Override
     public void hideLoading() {
-        ToastUtils.showShort("hideLoading");
-    }
 
-    @Override
-    public void showSuccess(String successMsg) {
-        ToastUtils.showShort(successMsg);
     }
-
-    @Override
-    public void showFailed(String errorMsg) {
-        ToastUtils.showShort(errorMsg);
-    }
-
     @Override
     public void showNoNet() {
         ToastUtils.showShort(R.string.no_network_connection);
-    }
-
-    @Override
-    public void onRetry() {
-        ToastUtils.showShort("onRetry");
-    }
-
-    @Override
-    public <T> LifecycleTransformer<T> bindToLife() {
-        return this.bindToLife();
     }
 
     /**
@@ -137,19 +125,16 @@ public abstract class BaseFragment<T extends BaseContract.BasePresenter> extends
         }
     }
 
-    /**
-     * 贴上view
-     */
-    private void attachView() {
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
-        }
-    }
+
 
     /**
-     * 分离view
+     * 创建presenter
+     *
+     * @return
      */
-    private void detacheView() {
-        mPresenter.detachView();
+    protected abstract P createPresenter();
+
+    public P getPresenter() {
+        return mPresenter;
     }
 }

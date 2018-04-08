@@ -4,15 +4,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
@@ -22,13 +21,13 @@ import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.constant.Constant;
 
 /**
- * Created by yinwuteng on 2018/3/18.
- * Activity基类
+ * Created by yinwuteng on 2018/4/5.
+ * 基类activity
  */
 
-public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends AppCompatActivity implements BaseContract.BaseView {
+public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> extends RxAppCompatActivity implements BaseView {
 
-    protected T mPresenter;
+    private P mPresenter;
     protected Toolbar mToolbar;
 
     private Unbinder unbinder;
@@ -49,50 +48,45 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ARouter.getInstance().inject(this);
         int layoutId = getLayoutId();
         setContentView(layoutId);
         unbinder = ButterKnife.bind(this);
         initToolbar();
         initView();
-        attachView();
+        initPresenter();
         if (!NetworkUtils.isConnected()) showNoNet();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-        detachView();
+    /**
+     * 初始化toolbar
+     */
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar == null) {
+            throw new NullPointerException("toolbar can not be null");
+        }
+        setSupportActionBar(mToolbar);
+        //是否显示返回键
+        getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeAsUp());
+        //toolbar除掉阴影
+        getSupportActionBar().setElevation(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mToolbar.setElevation(0);
+        }
     }
 
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showFailed(String message) {
-
-    }
-
-    public void showNoNet() {
-
-        ToastUtils.showShort("无网络连接");
-    }
-
-    @Override
-    public void onRetry() {
-
-    }
-
-    @Override
-    public <T> LifecycleTransformer<T> bindToLife() {
-        return null;
+    /**
+     * 初始化presneter
+     */
+    private void initPresenter() {
+        if (mPresenter == null) {
+            mPresenter = createPresenter();
+        }
+        if (mPresenter == null) {
+            throw new NullPointerException("presenter不能为空");
+        }
+        mPresenter.attachView((V) this);
     }
 
     @Override
@@ -112,13 +106,17 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         return true;
     }
 
+    @Override
+    public void showNoNet() {
+        ToastUtils.showShort("无网络连接");
+    }
 
     /**
      * 设置toolbar标题
      *
      * @param title
      */
-    private void setToolbarTitle(String title) {
+    protected void setToolbarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 
@@ -153,40 +151,34 @@ public abstract class BaseActivity<T extends BaseContract.BasePresenter> extends
         }
     }
 
-    /**
-     * 初始化toolbar
-     */
-    private void initToolbar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar == null) {
-            throw new NullPointerException("toolbar can not be null");
-        }
-        setSupportActionBar(mToolbar);
-        //是否显示返回键
-        getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeAsUp());
-        //toolbar除掉阴影
-        getSupportActionBar().setElevation(0);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mToolbar.setElevation(0);
-        }
-    }
-
-    /**
-     * 贴上view
-     */
-    private void attachView() {
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
-        }
-    }
-
-    /**
-     * 分离view
-     */
-    private void detachView() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+        //解除绑定
         if (mPresenter != null) {
             mPresenter.detachView();
         }
     }
 
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    /**
+     * 创建presenter
+     *
+     * @return
+     */
+    protected abstract P createPresenter();
+
+    public P getPresenter() {
+        return mPresenter;
+    }
 }

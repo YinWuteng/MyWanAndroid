@@ -20,8 +20,7 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.ui.home.HomeFragment;
@@ -51,7 +50,7 @@ public class MainActivity extends RxAppCompatActivity implements BottomNavigatio
 
 
     private void initView() {
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         //设置navigation监听
         navigation.setOnNavigationItemSelectedListener(this);
         viewPage = findViewById(R.id.viewPage);
@@ -114,7 +113,7 @@ public class MainActivity extends RxAppCompatActivity implements BottomNavigatio
      * 初始化fragment
      */
     private void initFragment() {
-        mFragments.add(new HomeFragment());
+        mFragments.add(HomeFragment.newInstance());
 //        mFragments.add(new KnowledgeFragment());
 //        mFragments.add(new MyFragment());
     }

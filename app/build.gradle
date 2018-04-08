@@ -12,6 +12,7 @@ android {
         //添加部分
         javaCompileOptions {
             annotationProcessorOptions {
+                includeCompileClasspath = true
                 arguments = [ moduleName : project.getName() ]
             }
         }
@@ -42,22 +43,19 @@ dependencies {
     //rxandroid
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
-    implementation "com.trello.rxlifecycle2:rxlifecycle:2.1.0"
-    implementation "com.trello.rxlifecycle2:rxlifecycle-components:2.1.0"
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     //添加recycleview适配器
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    //黄牛刀
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    implementation 'com.jakewharton:butterknife-compiler:8.8.1'
     //utilCode
     implementation 'com.blankj:utilcode:1.9.6'
     //CircleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.youth.banner:banner:1.4.9'
-
     //alibaba路由
-    implementation "com.alibaba:arouter-api:1.3.1"
-    implementation "com.alibaba:arouter-compiler:1.1.4"
-
+    implementation 'com.alibaba:arouter-api:1.3.1'
+    implementation 'com.alibaba:arouter-compiler:1.1.4'
     implementation 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    //ui
+    implementation 'com.android.support:cardview-v7:26.1.0'
 }

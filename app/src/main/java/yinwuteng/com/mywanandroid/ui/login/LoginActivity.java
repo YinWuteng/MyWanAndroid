@@ -1,6 +1,8 @@
 package yinwuteng.com.mywanandroid.ui.login;
 
 import android.support.design.widget.TextInputEditText;
+import android.view.View;
+import android.widget.Button;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -8,8 +10,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.bean.User;
@@ -20,13 +21,11 @@ import yinwuteng.com.mywanandroid.constant.Constant;
  * 登录activity
  */
 @Route(path = "/login/LoginActivity")
-public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> implements LoginView {
+public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> implements LoginView, View.OnClickListener {
 
-    @BindView(R.id.etUsername)
-    TextInputEditText etUsername;
-    @BindView(R.id.etPassword)
-    TextInputEditText etPassword;
-
+    private TextInputEditText etUsername;
+    private TextInputEditText etPassword;
+    private Button btnLogin;
 
     @Override
     protected int getLayoutId() {
@@ -35,9 +34,12 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
 
     @Override
     protected void initView() {
+        etUsername = findViewById(R.id.etUsername);
+        etPassword = findViewById(R.id.etPassword);
         etUsername.setText(SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.USERNAME_KEY));
         etPassword.setText(SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.PASSWORD_KEY));
-
+        btnLogin = findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(this);
     }
 
     @Override
@@ -45,8 +47,19 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
         return new LoginPresenter();
     }
 
-    @OnClick(R.id.btnLogin)
-    public void login() {
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnLogin:
+                login();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void login() {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
@@ -79,7 +92,8 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.PASSWORD_KEY, user.getPassword());
         this.finish();
     }
-    public static void start(){
+
+    public static void start() {
         ARouter.getInstance().build("/login/Activity").navigation();
     }
 }

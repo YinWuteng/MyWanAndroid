@@ -41,39 +41,36 @@ public class HomePresenter extends BasePresenter<HomeView> {
      * 加载头部类容
      */
     public void loadHomeBanners() {
-    RetrofitManager.create(ApiService.class)
-            .getHomeBanners()
-           .compose(RxSchedulers.<DataResponse<List<Banner>>>applySchedulers())
-            .subscribe(new Consumer<DataResponse<List<Banner>>>() {
-                @Override
-                public void accept(DataResponse<List<Banner>> listDataResponse) throws Exception {
-                    getView().setHomeBanners(listDataResponse.getData());
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    getView().showFailed(throwable.getMessage());
-                }
-            });
-
-
-
+        RetrofitManager.create(ApiService.class).getHomeBanners().compose(RxSchedulers.<DataResponse<List<Banner>>>applySchedulers()).subscribe(new Consumer<DataResponse<List<Banner>>>() {
+            @Override
+            public void accept(DataResponse<List<Banner>> listDataResponse) throws Exception {
+                getView().setHomeBanners(listDataResponse.getData());
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                getView().showFailed(throwable.getMessage());
+            }
+        });
     }
 
     /**
      * 加载文章内容
      */
     public void loadHomeArticles() {
-        RetrofitManager.create(ApiService.class).getHomeArticles(mPage).compose(RxSchedulers.<DataResponse<Article>>applySchedulers()).subscribe(new Consumer<DataResponse<Article>>() {
+        RetrofitManager.create(ApiService.class)
+                .getHomeArticles(mPage)
+                .compose(RxSchedulers.<DataResponse<Article>>applySchedulers())
+                .subscribe(new Consumer<DataResponse<Article>>() {
             @Override
             public void accept(DataResponse<Article> articleDataResponse) throws Exception {
-                int loadType = mIsRefresh ? Constant.LOADTYPE_REFRESH_SUCCESS : Constant.LOADTYPE_REFRESH_ERROR;
+                int loadType = mIsRefresh ? Constant.LOADTYPE_REFRESH_SUCCESS : Constant.LOADTYPE_LOAD_MORE_SUCCESS;
                 getView().setHomeArticles(articleDataResponse.getData(), loadType);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                int loadType = mIsRefresh ? Constant.LOADTYPE_REFRESH_ERROR : Constant.LOADTYPE_REFRESH_ERROR;
+                int loadType = mIsRefresh ? Constant.LOADTYPE_REFRESH_ERROR : Constant.LOADTYPE_LOAD_MORE_ERROR;
                 getView().setHomeArticles(new Article(), loadType);
             }
         });

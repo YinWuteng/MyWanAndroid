@@ -1,12 +1,13 @@
 package yinwuteng.com.mywanandroid.ui.home;
 
-import android.os.Bundle;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -26,7 +27,7 @@ import yinwuteng.com.mywanandroid.utils.GlideImageLoader;
  * HomeFragment
  */
 
-public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implements HomeView, SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implements HomeView, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.OnItemClickListener, ArticleAdapter.OnItemChildClickListener, ArticleAdapter.RequestLoadMoreListener {
 
     private RecyclerView rvHomeArticles;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -51,11 +52,16 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
         rvHomeArticles.setAdapter(mArticleAdapter);
         /**设置BannerHeadView*/
         mHomeBannerHearView = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_banner, null);
-        mBannerAds = (Banner) mHomeBannerHearView.findViewById(R.id.banner_ads);
+        mBannerAds = mHomeBannerHearView.findViewById(R.id.banner_ads);
         mArticleAdapter.addHeaderView(mHomeBannerHearView);
         /**设置事件监听事件*/
+        mArticleAdapter.setOnItemClickListener(this);
+        mArticleAdapter.setOnItemChildClickListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        mArticleAdapter.setOnLoadMoreListener(this);
         /**请求数据*/
-        mPresenter.loadHomeBanners();
+        mPresenter.loadHomeData();
+
     }
 
 
@@ -104,19 +110,62 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
         });
     }
 
+    /**
+     * 加载文章数据
+     *
+     * @param article  文章
+     * @param loadType 加载类型
+     */
     @Override
     public void setHomeArticles(Article article, int loadType) {
-
+        setLoadDataResult(mArticleAdapter, swipeRefreshLayout, article.getDatas(), loadType);
     }
 
     @Override
     public void collectArticlesSuccess(int position, Article.DatasBean bean) {
-
+        mArticleAdapter.setData(position, bean);
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    /**
+     * 跳转文章详情
+     *
+     * @param adapter
+     * @param view
+     * @param position
+     */
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+    }
+
+    /**
+     * 跳转到该类别
+     *
+     * @param adapter
+     * @param view
+     * @param position
+     */
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+    }
+
+    /**
+     * 加载更多
+     */
+    @Override
+    public void onLoadMoreRequested() {
+        mPresenter.loadMore();
+
+    }
+
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
     }
 }

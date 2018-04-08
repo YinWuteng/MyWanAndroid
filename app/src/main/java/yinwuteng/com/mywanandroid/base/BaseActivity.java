@@ -15,8 +15,6 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.constant.Constant;
 
@@ -30,7 +28,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> 
     private P mPresenter;
     protected Toolbar mToolbar;
 
-    private Unbinder unbinder;
+
 
     protected abstract int getLayoutId();
 
@@ -51,7 +49,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> 
         ARouter.getInstance().inject(this);
         int layoutId = getLayoutId();
         setContentView(layoutId);
-        unbinder = ButterKnife.bind(this);
         initToolbar();
         initView();
         initPresenter();
@@ -154,7 +151,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
         //解除绑定
         if (mPresenter != null) {
             mPresenter.detachView();

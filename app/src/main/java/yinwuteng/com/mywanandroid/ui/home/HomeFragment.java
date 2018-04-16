@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -18,7 +19,10 @@ import java.util.List;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.bean.Article;
+import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
+import yinwuteng.com.mywanandroid.constant.Constant;
 import yinwuteng.com.mywanandroid.ui.article.ArticleAdapter;
+import yinwuteng.com.mywanandroid.ui.article.ArticleContentActivity;
 import yinwuteng.com.mywanandroid.utils.GlideImageLoader;
 
 
@@ -135,17 +139,20 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
     /**
      * 跳转文章详情
      *
-     * @param adapter
-     * @param view
-     * @param position
+     * @param adapter  适配器
+     * @param view     视图
+     * @param position 位置
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+        ArticleContentActivity.start(mArticleAdapter.getItem(position).getId(),
+                mArticleAdapter.getItem(position).getLink(),
+                mArticleAdapter.getItem(position).getTitle(),
+                mArticleAdapter.getItem(position).getAuthor());
     }
 
     /**
-     * 跳转到该类别
+     * 跳转相关类别
      *
      * @param adapter
      * @param view
@@ -153,7 +160,15 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
      */
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+        if (view.getId() == R.id.tvChapterName) {
+            List<KnowledgeSystem.ChildrenBean> childrenBeans = new ArrayList<>();
+            childrenBeans.add(new KnowledgeSystem.ChildrenBean(mArticleAdapter.getItem(position).getChapterId(), mArticleAdapter.getItem(position).getChapterName()));
+            //跳转界面并传值
+            ARouter.getInstance().build("article/ArticleTypeActivity").withString(Constant.CONTENT_TITLE_KEY, mArticleAdapter.getItem(position).getChapterName()).withObject(Constant.CONTENT_CHILDREN_DATA_KEY, childrenBeans).navigation();
+        } else if (view.getId() == R.id.ivCollect) {
+            //收藏文章
+            mPresenter.collectArticles(position, mArticleAdapter.getItem(position));
+        }
     }
 
     /**

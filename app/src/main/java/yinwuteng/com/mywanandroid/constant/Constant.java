@@ -28,6 +28,37 @@ public class Constant {
      * 每页数量
      */
     public static final int PAGE_SIZE = 20;
+    /**
+     * url key
+     */
+    public static final String CONTENT_URL_KEY = "url";
+    /**
+     * title key
+     */
+    public static final String CONTENT_TITLE_KEY = "title";
+    /**
+     * id key
+     */
+    public static final String CONTETE_ID_KEY = "id";
+
+    /**
+     * cid key
+     */
+    public static final String CONTENT_CID_KET = "cid";
+
+    public static final String CONRENT_AUTHOR_KEY="author";
+    /**
+     * childrenData key
+     */
+    public static final String CONTENT_CHILDREN_DATA_KEY = "childrendata";
+    /**
+     * hot key
+     */
+    public static final String CONTENT_HOT_KEY = "hotKey";
+    /**
+     * hot name key
+     */
+    public static final String CONYENY_HOT_NAME_KET = "hotNameKey";
     public static final String SHARED_NAME = "_preferences";
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";

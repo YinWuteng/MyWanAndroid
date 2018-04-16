@@ -1,5 +1,7 @@
 package yinwuteng.com.mywanandroid.ui.home;
 
+import android.annotation.SuppressLint;
+
 import com.blankj.utilcode.util.SPUtils;
 
 
@@ -22,6 +24,7 @@ import yinwuteng.com.mywanandroid.bean.User;
 import yinwuteng.com.mywanandroid.constant.Constant;
 import yinwuteng.com.mywanandroid.net.ApiService;
 import yinwuteng.com.mywanandroid.net.RetrofitManager;
+import yinwuteng.com.mywanandroid.utils.ArticleUtils;
 import yinwuteng.com.mywanandroid.utils.RxSchedulers;
 
 /**
@@ -40,6 +43,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     /**
      * 加载头部类容
      */
+    @SuppressLint("CheckResult")
     public void loadHomeBanners() {
         RetrofitManager.create(ApiService.class).getHomeBanners().compose(RxSchedulers.<DataResponse<List<Banner>>>applySchedulers()).subscribe(new Consumer<DataResponse<List<Banner>>>() {
             @Override
@@ -57,6 +61,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
     /**
      * 加载文章内容
      */
+    @SuppressLint("CheckResult")
     public void loadHomeArticles() {
         RetrofitManager.create(ApiService.class)
                 .getHomeArticles(mPage)
@@ -91,12 +96,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     public void collectArticles(int position, Article.DatasBean bean) {
         /**文章收藏*/
+        ArticleUtils.collectArtivle(getView(),position,bean);
     }
 
     /**
      * 加载主页数据
      */
 
+    @SuppressLint("CheckResult")
     public void loadHomeData() {
         getView().showLoading();
         String username = SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.USERNAME_KEY);

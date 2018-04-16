@@ -25,7 +25,6 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
 
     private TextInputEditText etUsername;
     private TextInputEditText etPassword;
-    private Button btnLogin;
 
     @Override
     protected int getLayoutId() {
@@ -38,7 +37,7 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
         etPassword = findViewById(R.id.etPassword);
         etUsername.setText(SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.USERNAME_KEY));
         etPassword.setText(SPUtils.getInstance(Constant.SHARED_NAME).getString(Constant.PASSWORD_KEY));
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
     }
 
@@ -94,6 +93,6 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
     }
 
     public static void start() {
-        ARouter.getInstance().build("/login/Activity").navigation();
+        ARouter.getInstance().build("/login/LoginActivity").navigation();
     }
 }

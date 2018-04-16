@@ -1,5 +1,9 @@
 package yinwuteng.com.mywanandroid.ui.login;
 
+
+
+import android.annotation.SuppressLint;
+
 import io.reactivex.functions.Consumer;
 import yinwuteng.com.mywanandroid.base.BasePresenter;
 import yinwuteng.com.mywanandroid.bean.DataResponse;
@@ -18,7 +22,9 @@ public class LoginPresenter extends BasePresenter<LoginView>{
 
     }
 
-    public void login(String username,String password){
+
+    @SuppressLint("CheckResult")
+    public void login(String username, String password){
         RetrofitManager.create(ApiService.class)
                 .login(username, password)
                 .compose(RxSchedulers.<DataResponse<User>>applySchedulers())

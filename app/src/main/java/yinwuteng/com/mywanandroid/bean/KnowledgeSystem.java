@@ -1,6 +1,13 @@
 package yinwuteng.com.mywanandroid.bean;
 
+import android.content.Context;
+
+import com.alibaba.android.arouter.facade.service.SerializationService;
+
+import java.lang.reflect.Type;
 import java.util.List;
+
+import yinwuteng.com.mywanandroid.utils.GsonUtils;
 
 /**
  * Created by lw on 2018/1/22.
@@ -83,7 +90,7 @@ public class KnowledgeSystem {
         this.children = children;
     }
 
-    public static class ChildrenBean {
+    public static class ChildrenBean implements SerializationService {
         /**
          * children : []
          * courseId : 13
@@ -156,6 +163,31 @@ public class KnowledgeSystem {
 
         public void setChildren(List<?> children) {
             this.children = children;
+        }
+
+        @Override
+        public <T> T json2Object(String input, Class<T> clazz) {
+            return GsonUtils.convertObj(input, clazz);
+        }
+
+        @Override
+        public String object2Json(Object instance) {
+            return GsonUtils.toJson(instance);
+        }
+
+        @Override
+        public <T> T parseObject(String input, Type clazz) {
+            return GsonUtils.convertObj(input, clazz);
+        }
+
+        @Override
+        public void init(Context context) {
+
+        }
+
+        public ChildrenBean(int id, String name) {
+            this.id = id;
+            this.name = name;
         }
     }
 }

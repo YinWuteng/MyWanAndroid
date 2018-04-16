@@ -81,6 +81,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
+    /**
+     * 刷新
+     */
     public void refresh() {
         mPage = 0;
         mIsRefresh = true;
@@ -88,6 +91,9 @@ public class HomePresenter extends BasePresenter<HomeView> {
         loadHomeArticles();
     }
 
+    /**
+     * 加载更多
+     */
     public void loadMore() {
         mPage++;
         mIsRefresh = false;

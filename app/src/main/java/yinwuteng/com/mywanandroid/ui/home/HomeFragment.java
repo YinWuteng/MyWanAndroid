@@ -33,14 +33,12 @@ import yinwuteng.com.mywanandroid.utils.GlideImageLoader;
 
 public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implements HomeView, SwipeRefreshLayout.OnRefreshListener, ArticleAdapter.OnItemClickListener, ArticleAdapter.OnItemChildClickListener, ArticleAdapter.RequestLoadMoreListener {
 
-    private RecyclerView rvHomeArticles;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArticleAdapter mArticleAdapter = new ArticleAdapter();
     /**
      * 轮播动画控件
      */
     private Banner mBannerAds;
-    private View mHomeBannerHearView;
 
     @Override
     protected int getLayoutId() {
@@ -49,13 +47,13 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
 
     @Override
     protected void initView(View view) {
-        rvHomeArticles = view.findViewById(R.id.rvHomeArticles);
+        RecyclerView rvHomeArticles = view.findViewById(R.id.rvHomeArticles);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         /**设置RecyclerView*/
         rvHomeArticles.setLayoutManager(new LinearLayoutManager(getContext()));
         rvHomeArticles.setAdapter(mArticleAdapter);
         /**设置BannerHeadView*/
-        mHomeBannerHearView = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_banner, null);
+        View mHomeBannerHearView = LayoutInflater.from(getContext()).inflate(R.layout.layout_home_banner, null);
         mBannerAds = mHomeBannerHearView.findViewById(R.id.banner_ads);
         mArticleAdapter.addHeaderView(mHomeBannerHearView);
         /**设置事件监听事件*/
@@ -96,7 +94,7 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
     }
 
     @Override
-    public void setHomeBanners(List<yinwuteng.com.mywanandroid.bean.Banner> banners) {
+    public void setHomeBanners(final List<yinwuteng.com.mywanandroid.bean.Banner> banners) {
         List<String> images = new ArrayList<>();
         List<String> titles = new ArrayList<>();
         for (yinwuteng.com.mywanandroid.bean.Banner banner : banners) {
@@ -109,7 +107,8 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
         mBannerAds.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-
+   ArticleContentActivity.start(banners.get(position).getId(),banners.get(position).getUrl()
+   ,banners.get(position).getTitle(),null);
             }
         });
     }

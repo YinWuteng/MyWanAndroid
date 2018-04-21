@@ -1,4 +1,4 @@
-package yinwuteng.com.mywanandroid.ui.article;
+package yinwuteng.com.mywanandroid.ui.home.article;
 
 import android.annotation.SuppressLint;
 
@@ -37,7 +37,9 @@ public class ArticleTypePresenter extends BasePresenter<ArticleTypeView> {
     @SuppressLint("CheckResult")
     public void loadKnowledgeSystemArticles(int cid) {
         this.mCid = cid;
-        RetrofitManager.create(ApiService.class).getKnowledgeSystemArticles(mPage, mCid).compose(RxSchedulers.<DataResponse<Article>>applySchedulers()).subscribe(new Consumer<DataResponse<Article>>() {
+        RetrofitManager.create(ApiService.class)
+                .getKnowledgeSystemArticles(mPage, mCid).compose(RxSchedulers.<DataResponse<Article>>applySchedulers())
+                .subscribe(new Consumer<DataResponse<Article>>() {
             @Override
             public void accept(DataResponse<Article> articleDataResponse) throws Exception {
                 int loadType = mIsRefresh ? Constant.LOADTYPE_REFRESH_SUCCESS : Constant.LOADTYPE_LOAD_MORE_SUCCESS;

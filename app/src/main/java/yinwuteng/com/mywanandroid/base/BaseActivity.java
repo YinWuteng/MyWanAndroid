@@ -50,8 +50,8 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> 
         int layoutId = getLayoutId();
         setContentView(layoutId);
         initToolbar();
-        initView();
         initPresenter();
+        initView();
         if (!NetworkUtils.isConnected()) showNoNet();
     }
 

@@ -1,4 +1,4 @@
-package yinwuteng.com.mywanandroid.ui.article;
+package yinwuteng.com.mywanandroid.ui.home.article;
 
 import android.text.Html;
 

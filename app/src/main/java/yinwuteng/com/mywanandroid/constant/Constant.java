@@ -44,11 +44,11 @@ public class Constant {
     /**
      * cid key
      */
-    public static final String CONTENT_CID_KET = "cid";
+    public static final String CONTENT_CID_KEY= "cid";
 
     public static final String CONRENT_AUTHOR_KEY="author";
     /**
-     * childrenData key
+     * childrenData
      */
     public static final String CONTENT_CHILDREN_DATA_KEY = "childrendata";
     /**

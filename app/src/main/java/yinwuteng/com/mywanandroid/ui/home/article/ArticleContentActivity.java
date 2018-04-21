@@ -1,4 +1,4 @@
-package yinwuteng.com.mywanandroid.ui.article;
+package yinwuteng.com.mywanandroid.ui.home.article;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -33,7 +33,6 @@ public class ArticleContentActivity extends BaseActivity<BaseView, ArticleConten
     public String title;
     @Autowired
     public String author;
-    private FrameLayout mWebContent;
 
     @Override
     protected int getLayoutId() {
@@ -42,7 +41,7 @@ public class ArticleContentActivity extends BaseActivity<BaseView, ArticleConten
 
     @Override
     protected void initView() {
-        mWebContent = findViewById(R.id.webContent);
+        FrameLayout mWebContent = findViewById(R.id.webContent);
         AgentWeb.with(this)//传入Activity or Fragment
                 .setAgentWebParent(mWebContent, new LinearLayout.LayoutParams(-1, -1)) //传入AgentWeb 的父控件 ，如果父控件为 RelativeLayout ， 那么第二参数需要传入 RelativeLayout.LayoutParams ,第一个参数和第二个参数应该对应。
                 .useDefaultIndicator() //使用默认进度条

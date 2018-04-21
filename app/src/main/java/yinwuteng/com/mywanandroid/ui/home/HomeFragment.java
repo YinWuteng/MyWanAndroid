@@ -1,6 +1,7 @@
 package yinwuteng.com.mywanandroid.ui.home;
 
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,8 +22,9 @@ import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.bean.Article;
 import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
 import yinwuteng.com.mywanandroid.constant.Constant;
-import yinwuteng.com.mywanandroid.ui.article.ArticleAdapter;
-import yinwuteng.com.mywanandroid.ui.article.ArticleContentActivity;
+import yinwuteng.com.mywanandroid.ui.home.article.ArticleAdapter;
+import yinwuteng.com.mywanandroid.ui.home.article.ArticleContentActivity;
+import yinwuteng.com.mywanandroid.ui.home.article.ArticleTypeActivity;
 import yinwuteng.com.mywanandroid.utils.GlideImageLoader;
 
 
@@ -59,6 +61,7 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
         /**设置事件监听事件*/
         mArticleAdapter.setOnItemClickListener(this);
         mArticleAdapter.setOnItemChildClickListener(this);
+        mArticleAdapter.setChapterNameVisible(true);
         swipeRefreshLayout.setOnRefreshListener(this);
         mArticleAdapter.setOnLoadMoreListener(this);
         /**请求数据*/
@@ -144,26 +147,30 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ArticleContentActivity.start(mArticleAdapter.getItem(position).getId(),
+        ArticleContentActivity.start(
+                mArticleAdapter.getItem(position).getId(),
                 mArticleAdapter.getItem(position).getLink(),
                 mArticleAdapter.getItem(position).getTitle(),
-                mArticleAdapter.getItem(position).getAuthor());
+                mArticleAdapter.getItem(position).getAuthor()
+        );
     }
 
     /**
-     * 跳转相关类别
+     * 文章收藏或者跳转相关列别
      *
-     * @param adapter
-     * @param view
-     * @param position
+     * @param adapter 适配器
+     * @param view 视图
+     * @param position 位置
      */
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (view.getId() == R.id.tvChapterName) {
-            List<KnowledgeSystem.ChildrenBean> childrenBeans = new ArrayList<>();
-            childrenBeans.add(new KnowledgeSystem.ChildrenBean(mArticleAdapter.getItem(position).getChapterId(), mArticleAdapter.getItem(position).getChapterName()));
-            //跳转界面并传值
-            ARouter.getInstance().build("article/ArticleTypeActivity").withString(Constant.CONTENT_TITLE_KEY, mArticleAdapter.getItem(position).getChapterName()).withObject(Constant.CONTENT_CHILDREN_DATA_KEY, childrenBeans).navigation();
+//            List<KnowledgeSystem.ChildrenBean> childrenBeans = new ArrayList<>();
+//            childrenBeans.add(new KnowledgeSystem.ChildrenBean(mArticleAdapter.getItem(position).getChapterId(), mArticleAdapter.getItem(position).getChapterName()));
+
+            ARouter.getInstance().build("/article/ArticleTypeActivity")
+                    .withString(Constant.CONTENT_TITLE_KEY, mArticleAdapter.getItem(position).getChapterName())
+                    .withInt(Constant.CONTENT_CID_KEY, mArticleAdapter.getItem(position).getChapterId()).navigation();
         } else if (view.getId() == R.id.ivCollect) {
             //收藏文章
             mPresenter.collectArticles(position, mArticleAdapter.getItem(position));

@@ -1,8 +1,6 @@
 package yinwuteng.com.mywanandroid.net;
 
 
-
-
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -14,6 +12,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import yinwuteng.com.mywanandroid.bean.Article;
 import yinwuteng.com.mywanandroid.bean.Banner;
+import yinwuteng.com.mywanandroid.bean.Book;
 import yinwuteng.com.mywanandroid.bean.DataResponse;
 import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
 import yinwuteng.com.mywanandroid.bean.User;
@@ -26,6 +25,7 @@ import yinwuteng.com.mywanandroid.bean.User;
 public interface ApiService {
     /**
      * 获取首页数据
+     *
      * @param page 页码
      * @return
      */
@@ -64,6 +64,7 @@ public interface ApiService {
      */
     @GET("/tree/json")
     Observable<DataResponse<List<KnowledgeSystem>>> getKnowledgeSystems();
+
     /**
      * 知识体系下的文章
      * http://www.wanandroid.com/article/list/0/json?cid=168
@@ -113,4 +114,35 @@ public interface ApiService {
      */
     @GET("/banner/json")
     Observable<DataResponse<List<Banner>>> getHomeBanners();
+
+    /**
+     * 我的书签
+     * http://www.wanandroid.com/lg/collect/usertools/json
+     *
+     * @return
+     */
+    @GET("/lg/collect/usertools/json")
+    Observable<DataResponse<List<Book>>> getBookmarks();
+
+    /**
+     * 编辑书签
+     *
+     * @param id
+     * @param name
+     * @param link http://www.wanandroid.com/lg/collect/updatetool/json
+     * @return
+     */
+    @POST("/lg/collect/usertools/json")
+    @FormUrlEncoded
+    Observable<DataResponse> editBookmark(@Field("id") int id, @Field("name") String name, @Field("link") String link);
+
+    /**
+     * 删除书签
+     * @param id
+     * http://www.wanandroid.com/lg/collect/deletetool/json
+     * @return
+     */
+    @POST("/lg/collect/deletetool/json")
+    @FormUrlEncoded
+    Observable<DataResponse> delBookmark(@Field("id") int id);
 }

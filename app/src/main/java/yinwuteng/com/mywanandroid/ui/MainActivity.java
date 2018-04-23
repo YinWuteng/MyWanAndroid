@@ -24,7 +24,7 @@ import java.util.List;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.ui.home.HomeFragment;
-import yinwuteng.com.mywanandroid.ui.knowledge.KnowledgeFragment;
+import yinwuteng.com.mywanandroid.ui.knowledge.KnowledgeSystemFragment;
 import yinwuteng.com.mywanandroid.ui.my.MyFragment;
 
 
@@ -114,8 +114,8 @@ public class MainActivity extends RxAppCompatActivity implements BottomNavigatio
      */
     private void initFragment() {
         mFragments.add(HomeFragment.newInstance());
-//        mFragments.add(new KnowledgeFragment());
-//        mFragments.add(new MyFragment());
+        mFragments.add(KnowledgeSystemFragment.newInstance());
+        mFragments.add(MyFragment.newInstance());
     }
 
     /**

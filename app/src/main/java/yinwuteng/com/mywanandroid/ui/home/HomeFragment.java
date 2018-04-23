@@ -1,7 +1,7 @@
 package yinwuteng.com.mywanandroid.ui.home;
 
 
-import android.content.Intent;
+
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +20,9 @@ import java.util.List;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.bean.Article;
-import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
 import yinwuteng.com.mywanandroid.constant.Constant;
 import yinwuteng.com.mywanandroid.ui.home.article.ArticleAdapter;
 import yinwuteng.com.mywanandroid.ui.home.article.ArticleContentActivity;
-import yinwuteng.com.mywanandroid.ui.home.article.ArticleTypeActivity;
 import yinwuteng.com.mywanandroid.utils.GlideImageLoader;
 
 
@@ -165,9 +163,6 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (view.getId() == R.id.tvChapterName) {
-//            List<KnowledgeSystem.ChildrenBean> childrenBeans = new ArrayList<>();
-//            childrenBeans.add(new KnowledgeSystem.ChildrenBean(mArticleAdapter.getItem(position).getChapterId(), mArticleAdapter.getItem(position).getChapterName()));
-
             ARouter.getInstance().build("/article/ArticleTypeActivity")
                     .withString(Constant.CONTENT_TITLE_KEY, mArticleAdapter.getItem(position).getChapterName())
                     .withInt(Constant.CONTENT_CID_KEY, mArticleAdapter.getItem(position).getChapterId()).navigation();

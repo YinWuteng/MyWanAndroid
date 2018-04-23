@@ -99,6 +99,16 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter> 
     }
 
     @Override
+    public void onSuccess(String message) {
+
+    }
+
+    @Override
+    public void showFailed(String message) {
+
+    }
+
+    @Override
     public void showLoading() {
 
     }

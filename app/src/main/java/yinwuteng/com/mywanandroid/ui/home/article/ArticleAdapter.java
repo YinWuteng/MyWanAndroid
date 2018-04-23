@@ -11,6 +11,7 @@ import yinwuteng.com.mywanandroid.bean.Article;
 /**
  * Created by yinwuteng on 2018/4/6.
  * ArticleAdapter
+ * 文章适配器
  */
 
 public class ArticleAdapter extends BaseQuickAdapter<Article.DatasBean, BaseViewHolder> {

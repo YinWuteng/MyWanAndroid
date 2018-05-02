@@ -167,6 +167,16 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter> 
 
     }
 
+    @Override
+    public void onSuccess(String message) {
+
+    }
+
+    @Override
+    public void showFailed(String message) {
+
+    }
+
     /**
      * 创建presenter
      *

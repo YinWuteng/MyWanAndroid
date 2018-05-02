@@ -15,6 +15,7 @@ import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.bean.User;
 import yinwuteng.com.mywanandroid.constant.Constant;
+import yinwuteng.com.mywanandroid.utils.RxBus;
 
 /**
  * Created by yinwuteng on 2018/4/5.
@@ -89,6 +90,8 @@ public class LoginActivity extends BaseActivity<LoginView, LoginPresenter> imple
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.LOGIN_KEY, true);
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.USERNAME_KEY, user.getUsername());
         SPUtils.getInstance(Constant.SHARED_NAME).put(Constant.PASSWORD_KEY, user.getPassword());
+        /**登录成功通知其他界面刷新*/
+        RxBus.getInstance().post(new LoginEvent());
         this.finish();
     }
 

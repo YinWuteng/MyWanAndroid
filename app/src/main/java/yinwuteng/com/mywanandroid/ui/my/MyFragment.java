@@ -1,7 +1,11 @@
 package yinwuteng.com.mywanandroid.ui.my;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +18,7 @@ import io.reactivex.functions.Consumer;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.base.BasePresenter;
+import yinwuteng.com.mywanandroid.base.BaseView;
 import yinwuteng.com.mywanandroid.constant.Constant;
 import yinwuteng.com.mywanandroid.net.CookiesManager;
 import yinwuteng.com.mywanandroid.ui.login.LoginActivity;
@@ -46,8 +51,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         TextView mMyBookMark = view.findViewById(R.id.tvMyBookmark);
         TextView mSetting = view.findViewById(R.id.tvSetting);
 
-        mCivAvatar.setOnClickListener(this);
 
+        mCivAvatar.setOnClickListener(this);
         mLlLogout.setOnClickListener(this);
         mTvMyCollection.setOnClickListener(this);
         mMyBookMark.setOnClickListener(this);
@@ -66,9 +71,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
+
+
     @Override
     protected BasePresenter createPresenter() {
-        return null;
+        return new BasePresenter() {
+            @Override
+            public BaseView getView() {
+                return super.getView();
+            }
+        };
     }
 
     @Override

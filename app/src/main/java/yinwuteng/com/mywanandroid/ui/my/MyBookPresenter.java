@@ -33,7 +33,7 @@ public class MyBookPresenter extends BasePresenter<MyBookmarkView> {
         RetrofitManager.create(ApiService.class).getBookmarks().compose(RxSchedulers.<DataResponse<List<Book>>>applySchedulers()).subscribe(new Consumer<DataResponse<List<Book>>>() {
             @Override
             public void accept(DataResponse<List<Book>> listDataResponse) throws Exception {
-                getView().setMyBooknarks(listDataResponse.getData());
+                getView().setMyBookMarks(listDataResponse.getData());
             }
         }, new Consumer<Throwable>() {
             @Override

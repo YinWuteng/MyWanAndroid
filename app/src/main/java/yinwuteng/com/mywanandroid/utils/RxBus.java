@@ -42,7 +42,7 @@ public class RxBus {
      * @param o
      */
     public void post(Object o){
-        mBus.onNext(0);
+        mBus.onNext(o);
     }
 
     /**

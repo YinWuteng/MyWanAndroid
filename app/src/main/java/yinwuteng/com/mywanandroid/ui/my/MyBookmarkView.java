@@ -10,5 +10,5 @@ import yinwuteng.com.mywanandroid.bean.Book;
  * 2018/4/23.
  */
 public interface MyBookmarkView extends BaseView {
-    void setMyBooknarks(List<Book> bookmarks);
+    void setMyBookMarks(List<Book> bookmarks);
 }

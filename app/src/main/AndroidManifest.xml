@@ -27,5 +27,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.home.article.ArticleContentActivity" />
         <activity android:name=".ui.home.article.ArticleTypeActivity" />
+        <activity android:name=".ui.my.MyBookmarkActivity" />
     </application>
 </manifest>

@@ -39,6 +39,11 @@ public class ArticleAdapter extends BaseQuickAdapter<Article.DatasBean, BaseView
         this.mChapterNameVisible = chapterNameVisible;
     }
 
+
+    /**
+     * 是否收藏
+     * @param isMyColection
+     */
     public void isMyColection(boolean isMyColection) {
         this.mIsMyColection = isMyColection;
     }

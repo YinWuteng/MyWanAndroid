@@ -138,11 +138,19 @@ public interface ApiService {
 
     /**
      * 删除书签
-     * @param id
-     * http://www.wanandroid.com/lg/collect/deletetool/json
+     *
+     * @param id http://www.wanandroid.com/lg/collect/deletetool/json
      * @return
      */
     @POST("/lg/collect/deletetool/json")
     @FormUrlEncoded
     Observable<DataResponse> delBookmark(@Field("id") int id);
+
+    /**
+     * 获取自己收藏的文章列表
+     * @param page
+     * @return
+     */
+    @GET("/lg/collect/list/{page}/json")
+    Observable<DataResponse<Article>> getCollectionArticles(@Path("page") int page);
 }

@@ -154,7 +154,7 @@ public class HomeFragment extends BaseFragment<HomeView, HomePresenter> implemen
     }
 
     /**
-     * 文章收藏或者跳转相关列别
+     * 文章收藏或者跳转相关类别
      *
      * @param adapter 适配器
      * @param view 视图

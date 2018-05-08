@@ -2,6 +2,8 @@ package yinwuteng.com.mywanandroid.bean;
 
 import android.content.Context;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.facade.service.SerializationService;
 
 import java.lang.reflect.Type;
@@ -12,35 +14,16 @@ import yinwuteng.com.mywanandroid.utils.GsonUtils;
 /**
  * Created by lw on 2018/1/22.
  */
+@Route(path = "/service/json")
+public class KnowledgeSystem implements SerializationService{
 
-public class KnowledgeSystem {
-
-
-    /**
-     * children : [{"children":[],"courseId":13,"id":60,"name":"Android Studio相关","order":1000,"parentChapterId":150,"visible":1}]
-     * courseId : 13
-     * id : 150
-     * name : 开发环境
-     * order : 1
-     * parentChapterId : 0
-     * visible : 1
-     */
-
-    private int courseId;
     private int id;
     private String name;
-    private int order;
+    private int courseId;
     private int parentChapterId;
+    private int order;
     private int visible;
     private List<ChildrenBean> children;
-
-    public int getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
 
     public int getId() {
         return id;
@@ -58,12 +41,12 @@ public class KnowledgeSystem {
         this.name = name;
     }
 
-    public int getOrder() {
-        return order;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     public int getParentChapterId() {
@@ -72,6 +55,14 @@ public class KnowledgeSystem {
 
     public void setParentChapterId(int parentChapterId) {
         this.parentChapterId = parentChapterId;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public int getVisible() {
@@ -90,32 +81,44 @@ public class KnowledgeSystem {
         this.children = children;
     }
 
+    @Override
+    public <T> T json2Object(String input, Class<T> clazz) {
+        return GsonUtils.convertObj(input, clazz);
+    }
+
+    @Override
+    public String object2Json(Object instance) {
+        return GsonUtils.toJson(instance);
+    }
+
+    @Override
+    public <T> T parseObject(String input, Type clazz) {
+        return GsonUtils.convertObj(input, clazz);
+    }
+
+    @Override
+    public void init(Context context) {
+
+    }
+
     public static class ChildrenBean implements SerializationService {
         /**
-         * children : []
-         * courseId : 13
          * id : 60
          * name : Android Studio相关
-         * order : 1000
+         * courseId : 13
          * parentChapterId : 150
+         * order : 1000
          * visible : 1
+         * children : []
          */
 
-        private int courseId;
         private int id;
         private String name;
-        private int order;
+        private int courseId;
         private int parentChapterId;
+        private int order;
         private int visible;
-        private List<?> children;
-
-        public int getCourseId() {
-            return courseId;
-        }
-
-        public void setCourseId(int courseId) {
-            this.courseId = courseId;
-        }
+        private List<ChildrenBean> children;
 
         public int getId() {
             return id;
@@ -133,12 +136,12 @@ public class KnowledgeSystem {
             this.name = name;
         }
 
-        public int getOrder() {
-            return order;
+        public int getCourseId() {
+            return courseId;
         }
 
-        public void setOrder(int order) {
-            this.order = order;
+        public void setCourseId(int courseId) {
+            this.courseId = courseId;
         }
 
         public int getParentChapterId() {
@@ -147,6 +150,14 @@ public class KnowledgeSystem {
 
         public void setParentChapterId(int parentChapterId) {
             this.parentChapterId = parentChapterId;
+        }
+
+        public int getOrder() {
+            return order;
+        }
+
+        public void setOrder(int order) {
+            this.order = order;
         }
 
         public int getVisible() {
@@ -161,7 +172,7 @@ public class KnowledgeSystem {
             return children;
         }
 
-        public void setChildren(List<?> children) {
+        public void setChildren(List<ChildrenBean> children) {
             this.children = children;
         }
 
@@ -190,4 +201,5 @@ public class KnowledgeSystem {
             this.name = name;
         }
     }
+
 }

@@ -1,9 +1,7 @@
 package yinwuteng.com.mywanandroid.ui;
 
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,14 +13,16 @@ import android.view.MenuItem;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.util.ToastUtils;
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 import yinwuteng.com.mywanandroid.R;
+import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
+import yinwuteng.com.mywanandroid.base.BasePresenter;
+import yinwuteng.com.mywanandroid.base.BaseView;
 import yinwuteng.com.mywanandroid.ui.home.HomeFragment;
 import yinwuteng.com.mywanandroid.ui.knowledge.KnowledgeSystemFragment;
 import yinwuteng.com.mywanandroid.ui.my.MyFragment;
@@ -33,7 +33,7 @@ import yinwuteng.com.mywanandroid.ui.my.MyFragment;
  * 主界面
  */
 @Route(path = "/ui/MainActivity")
-public class MainActivity extends RxAppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ViewPager viewPage;
     private BottomNavigationView navigation;
     private Toolbar mToolbar;
@@ -41,15 +41,15 @@ public class MainActivity extends RxAppCompatActivity implements BottomNavigatio
 
     private long mExitTime; //退出时间
 
+
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
-
-    private void initView() {
+    public void initView() {
         navigation = findViewById(R.id.navigation);
         //设置navigation监听
         navigation.setOnNavigationItemSelectedListener(this);
@@ -94,6 +94,16 @@ public class MainActivity extends RxAppCompatActivity implements BottomNavigatio
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return new BasePresenter() {
+            @Override
+            public BaseView getView() {
+                return super.getView();
+            }
+        };
     }
 
 

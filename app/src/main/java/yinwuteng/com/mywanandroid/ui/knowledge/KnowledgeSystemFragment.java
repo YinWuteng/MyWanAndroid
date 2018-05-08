@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
+import yinwuteng.com.mywanandroid.constant.Constant;
 
 /**
  * Created by yinwuteng on 2018/4/6.
@@ -74,7 +76,10 @@ public class KnowledgeSystemFragment extends BaseFragment<KnowledgeSystemView, K
      */
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+        ARouter.getInstance().build("/article/ArticleTypeActivity")
+                .withString(Constant.CONTENT_TITLE_KEY,mKnowledgeSystemAdapter.getItem(position).getName())
+                .withObject(Constant.CONTENT_CHILDREN_DATA_KEY,mKnowledgeSystemAdapter.getItem(position).getChildren())
+                .navigation();
     }
 
     /**

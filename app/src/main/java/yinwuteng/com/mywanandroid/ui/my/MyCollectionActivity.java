@@ -81,9 +81,9 @@ public class MyCollectionActivity extends BaseActivity<MyCollectionView, MyColle
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
         if (view.getId() == R.id.tvChapterName) {
-            ARouter.getInstance().build("/article/ArticleTypeActivity")
-                    .withString(Constant.CONTENT_TITLE_KEY, mArticleAdapter.getItem(position).getChapterName())
-                    .withInt(Constant.CONTENT_CID_KEY, mArticleAdapter.getItem(position).getChapterId()).navigation();
+            List<KnowledgeSystem.ChildrenBean> childrenBeans = new ArrayList<>();
+            childrenBeans.add(new KnowledgeSystem.ChildrenBean(mArticleAdapter.getItem(position).getChapterId(), mArticleAdapter.getItem(position).getChapterName()));
+            ARouter.getInstance().build("/article/ArticleTypeActivity").withString(Constant.CONTENT_TITLE_KEY, mArticleAdapter.getItem(position).getChapterName()).withObject(Constant.CONTENT_CHILDREN_DATA_KEY, childrenBeans).navigation();
         } else if (view.getId() == R.id.ivCollect) {
             //收藏文章
             getPresenter().unCollectArticle(position, mArticleAdapter.getItem(position));
@@ -92,9 +92,7 @@ public class MyCollectionActivity extends BaseActivity<MyCollectionView, MyColle
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ArticleContentActivity.start(mArticleAdapter.getItem(position).getId(),
-                mArticleAdapter.getItem(position).getLink(),mArticleAdapter.getItem(position).getTitle(),
-                mArticleAdapter.getItem(position).getAuthor());
+        ArticleContentActivity.start(mArticleAdapter.getItem(position).getId(), mArticleAdapter.getItem(position).getLink(), mArticleAdapter.getItem(position).getTitle(), mArticleAdapter.getItem(position).getAuthor());
     }
 
     @Override

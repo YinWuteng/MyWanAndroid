@@ -14,6 +14,7 @@ import yinwuteng.com.mywanandroid.bean.Article;
 import yinwuteng.com.mywanandroid.bean.Banner;
 import yinwuteng.com.mywanandroid.bean.Book;
 import yinwuteng.com.mywanandroid.bean.DataResponse;
+import yinwuteng.com.mywanandroid.bean.HotKey;
 import yinwuteng.com.mywanandroid.bean.KnowledgeSystem;
 import yinwuteng.com.mywanandroid.bean.User;
 
@@ -153,4 +154,30 @@ public interface ApiService {
      */
     @GET("/lg/collect/list/{page}/json")
     Observable<DataResponse<Article>> getCollectionArticles(@Path("page") int page);
+
+    /**
+     * 常用网站
+     * http://www.wanandroid.com/friend/json
+     * @return
+     */
+    @GET("/friend/json")
+    Observable<DataResponse<List<Book>>> getHotBooks();
+
+    /**
+     * 大家都在搜
+     * http://www.wanandroid.com/hotkey/json
+     * @return
+     */
+    @GET("/hotkey/json")
+    Observable<DataResponse<List<HotKey>>> getHotKeys();
+
+    /**
+     * 搜索
+     * @param page page
+     * @param k post search key
+     * @return
+     */
+    @POST("/article/query/{page}/json")
+    @FormUrlEncoded
+    Observable<DataResponse<Article>> getSearchArticles(@Path("page")int page,@Field("k") String k);
 }

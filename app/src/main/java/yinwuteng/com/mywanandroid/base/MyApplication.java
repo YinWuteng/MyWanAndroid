@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.Utils;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import yinwuteng.com.mywanandroid.BuildConfig;
 
@@ -29,6 +30,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        FlowManager.init(this);
         Utils.init(this);
         initARouter();
     }

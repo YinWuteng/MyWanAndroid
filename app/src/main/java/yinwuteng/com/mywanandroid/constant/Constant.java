@@ -51,6 +51,12 @@ public class Constant {
      * childrenData
      */
     public static final String CONTENT_CHILDREN_DATA_KEY = "childrendata";
+
+    /**
+     * hotBook key
+     */
+    public static final String CONTENT_HOT_BOOK_KEY="hotBook";
+
     /**
      * hot key
      */
@@ -58,7 +64,7 @@ public class Constant {
     /**
      * hot name key
      */
-    public static final String CONYENY_HOT_NAME_KET = "hotNameKey";
+    public static final String CONTENT_HOT_NAME_KET = "hotNameKey";
     public static final String SHARED_NAME = "_preferences";
     public static final String USERNAME_KEY = "username";
     public static final String PASSWORD_KEY = "password";

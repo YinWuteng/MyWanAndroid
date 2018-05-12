@@ -23,6 +23,8 @@ import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.base.BaseFragment;
 import yinwuteng.com.mywanandroid.base.BasePresenter;
 import yinwuteng.com.mywanandroid.base.BaseView;
+import yinwuteng.com.mywanandroid.hotsearch.HotActivity;
+import yinwuteng.com.mywanandroid.hotsearch.MySearchActivity;
 import yinwuteng.com.mywanandroid.ui.home.HomeFragment;
 import yinwuteng.com.mywanandroid.ui.knowledge.KnowledgeSystemFragment;
 import yinwuteng.com.mywanandroid.ui.my.MyFragment;
@@ -40,8 +42,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     private List<BaseFragment> mFragments = new ArrayList<>();
 
     private long mExitTime; //退出时间
-
-
 
 
     @Override
@@ -89,9 +89,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menuHot) {
-
+           HotActivity.start();
         } else if (item.getItemId() == R.id.menuSearch) {
-
+            MySearchActivity.start();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -180,4 +180,5 @@ public interface ApiService {
     @POST("/article/query/{page}/json")
     @FormUrlEncoded
     Observable<DataResponse<Article>> getSearchArticles(@Path("page")int page,@Field("k") String k);
+
 }

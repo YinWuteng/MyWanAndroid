@@ -12,7 +12,7 @@ import java.util.List;
 import yinwuteng.com.mywanandroid.R;
 import yinwuteng.com.mywanandroid.base.BaseActivity;
 import yinwuteng.com.mywanandroid.bean.Book;
-import yinwuteng.com.mywanandroid.hotSearch.HotAdapter;
+import yinwuteng.com.mywanandroid.hotsearch.HotAdapter;
 import yinwuteng.com.mywanandroid.ui.home.article.ArticleContentActivity;
 
 /**

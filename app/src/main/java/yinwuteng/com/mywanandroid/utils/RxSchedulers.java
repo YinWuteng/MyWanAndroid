@@ -1,6 +1,8 @@
 package yinwuteng.com.mywanandroid.utils;
 
 
+
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -23,7 +25,7 @@ public class RxSchedulers {
     };
 
 
-    public static <T> ObservableTransformer<T, T> applySchedulers() {
+    public static <T> ObservableTransformer<T,T> applySchedulers() {
         return (ObservableTransformer<T, T>) schedulersTransformer;
     }
 }

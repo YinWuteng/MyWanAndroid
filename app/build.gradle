@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+def dbflow_version = "4.2.4"
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -13,7 +13,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
         multiDexEnabled true
@@ -62,4 +62,10 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     //web框架
     implementation 'com.just.agentweb:agentweb:3.1.0'
+
+    //注解数据库
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
 }

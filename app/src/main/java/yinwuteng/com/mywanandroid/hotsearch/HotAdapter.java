@@ -1,4 +1,4 @@
-package yinwuteng.com.mywanandroid.hotSearch;
+package yinwuteng.com.mywanandroid.hotsearch;
 
 import android.content.Context;
 import android.graphics.Color;

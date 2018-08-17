@@ -30,6 +30,7 @@ import yinwuteng.com.mywanandroid.utils.RxSchedulers;
 /**
  * Created by yinwuteng on 2018/4/5.
  * HomePresenter
+ * 主界面控制器
  */
 
 public class HomePresenter extends BasePresenter<HomeView> {

@@ -29,5 +29,7 @@
         <activity android:name=".ui.home.article.ArticleTypeActivity" />
         <activity android:name=".ui.my.MyBookmarkActivity" />
         <activity android:name=".ui.my.MyCollectionActivity" />
+        <activity android:name=".hotsearch.HotActivity" />
+        <activity android:name=".hotsearch.MySearchActivity" />
     </application>
 </manifest>

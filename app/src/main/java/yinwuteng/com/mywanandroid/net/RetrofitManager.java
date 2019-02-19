@@ -5,10 +5,12 @@ import com.blankj.utilcode.util.NetworkUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -67,6 +69,53 @@ public class RetrofitManager {
             }
         }
     };
+
+
+    /**
+     * 多url切换
+     */
+//    private static final Interceptor moreUrl = new Interceptor() {
+//        @Override
+//        public Response intercept(Chain chain) throws IOException {
+//            //获取request
+//            Request request = chain.request();
+//            //从request中获取原有的httpurl实例oldUrl
+//            HttpUrl oldhttpurl = request.url();
+//            //获取request的创建者builder
+//            Request.Builder builder = request.newBuilder();
+//            //从request中获取headers，通过给定的健url
+//            List<String> headerValues = request.headers("url_name");
+//            if (headerValues != null && headerValues.size() > 0) {
+//                //如果有这个header。则先将配置的header删除，因此header仅作app和okhttp之间使用
+//                builder.removeHeader("url_name");
+//                //匹配获得新的BaseUrl
+//                String headervalue = headerValues.get(0);
+//                HttpUrl newBaseUrl = null;
+//                if ("base".equals(headervalue)) {
+//                    newBaseUrl = HttpUrl.parse(Constant.MAP_URL);
+//                } else if ("controller".equals(headervalue)) {
+//                    newBaseUrl = HttpUrl.parse(Constant.STOP_URL);
+//                } else if ("video".equals(headervalue)) {
+//                    newBaseUrl = HttpUrl.parse(Constant.VIDEO);
+//                } else if ("test".equals(headervalue)) {
+//                    newBaseUrl = HttpUrl.parse(Constant.SHEN_ZHONG_TEST_URL);
+//                } else {
+//                    newBaseUrl = oldhttpurl;
+//                }
+//                //从request中获取原有的HttpUrl实例oldHttpUrl
+//                HttpUrl oldHttpUrl = request.url();
+//                //重建新的HttpUrl，修改需要修改的url部分
+//                HttpUrl newFullUrl = oldHttpUrl.newBuilder().scheme(newBaseUrl.scheme()).host
+//                        (newBaseUrl.host()).port(newBaseUrl.port()).build();
+//
+//                //重建这个request，通过builder.url(newFullUrl).build()；
+//                //然后返回一个response至此结束修改
+//                return chain.proceed(builder.url(newFullUrl).build());
+//            } else {
+//                return chain.proceed(request);
+//            }
+//        }
+//    };
 
     /**
      * 日志拦截器
